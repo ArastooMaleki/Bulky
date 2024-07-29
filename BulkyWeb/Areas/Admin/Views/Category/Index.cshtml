@@ -1,0 +1,40 @@
+﻿@model List<Category>
+<div class="container">
+    @*@if (TempData["success"]!=null)
+    {
+        <h1>@TempData["success"]</h1>
+    }*@
+    <partial name="~/Views/Shared/_Notification.cshtml" />
+    <div class="row ">
+        <div class="col-6 ">
+            <h1>Category list </h1>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-area="Admin" asp-controller = "Category" asp-action = "Create" class="btn btn-primary"> create a new </a>
+        </div>
+    </div>
+<table class="table table-bordered table-striped" >
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Order</td>
+        <td>Edit</td>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model.OrderBy(c => c.DisplayOrder))
+        {
+            <tr>
+                <td>@cat.Name</td>
+                <td>@cat.DisplayOrder</td>
+                <td class="text-end">
+                    <div class="btn-group ">
+                        <a method = "delete" asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@cat.Id" class="btn btn-primary m-1">delete</a>
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Update" asp-route-id="@cat.Id" class="btn btn-primary m-1">edit</a>  
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>

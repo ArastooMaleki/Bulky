@@ -1,0 +1,30 @@
+﻿@model Category
+
+<div class="container">
+    <h1>Update category</h1>
+    <div class="alert-danger" asp-validation-summary="All"></div>
+    <form method="post">
+        <div class="pt-5">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span class="alert-danger mt-10" asp-validation-for="Name"></span>
+        </div>
+        <div class="pt-5">
+            <label asp-for="DisplayOrder"></label>
+            <input asp-for="DisplayOrder" class="form-control" />
+            <span class="alert-danger mt-10" asp-validation-for="DisplayOrder"></span>
+        </div>
+
+        <div class="row pt-6 m-5">
+            <div class="col-6 pt-6 "><button type="submit" class="btn btn-primary">Update</button></div>
+            <div class="col-6 pt-6  "><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-primary">back</a></div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial.cshtml" />
+    }
+}
