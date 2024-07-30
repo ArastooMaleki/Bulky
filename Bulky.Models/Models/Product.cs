@@ -39,6 +39,7 @@ namespace Bulky.Models.Models
         public double Price100 { get; set; }
         [Required]
         public int CategoryID {  get; set; }
+        public string? ImageUrl { get; set; }
         //nevigation property
         public Category Category { get; set; }
 
