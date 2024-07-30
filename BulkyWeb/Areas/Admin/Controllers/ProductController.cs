@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -19,6 +20,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
+            var CategoryListItems = _unitOfWork.CategoryRepository.GetAll()
+                .Select(c=> new SelectListItem { Text = c.Name , Value = c.Id.ToString()});
+            ViewBag.CategoryListItems = CategoryListItems;
             return View();
         }
         [HttpPost]
@@ -32,6 +36,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
         
         public IActionResult Edit([FromRoute]int ID)
         {
+            var CategoryListItems = _unitOfWork.CategoryRepository.GetAll()
+                .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
+            ViewBag.CategoryListItems = CategoryListItems;
             Product product = _unitOfWork.ProductRepository.Get(p=>p.ID==ID);
             return View(product);
             
