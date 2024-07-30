@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.DataAccess.Data;
-namespace Bulky.DataAccess.Repository
+namespace Bulky.DataAccess.Repositories
 {
     internal class CategoryRepository : Repository<Category>, ICategoryRepository
     {

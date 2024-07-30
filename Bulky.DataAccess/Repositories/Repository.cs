@@ -8,7 +8,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bulky.DataAccess.Repository
+namespace Bulky.DataAccess.Repositories
+
 {
     internal class Repository<T> : IRepository<T> where T : class
     {
