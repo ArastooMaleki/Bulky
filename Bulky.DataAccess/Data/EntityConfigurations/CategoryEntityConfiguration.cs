@@ -18,6 +18,10 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                 new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "History", DisplayOrder = 3 }
                 );
+            builder
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p=>p.CategoryID) ;
         }
     }
 }

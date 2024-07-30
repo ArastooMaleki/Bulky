@@ -25,7 +25,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80,
-                    //CategoryID = 1
+                    CategoryID = 1
                 },
                 new Product
                 {
@@ -38,7 +38,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    //CategoryID = 1
+                    CategoryID = 1
                 },
                 new Product
                 {
@@ -51,7 +51,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    //CategoryID = 1
+                    CategoryID = 1
                 },
                 new Product
                 {
@@ -64,7 +64,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    //CategoryID = 2
+                    CategoryID = 2
                 },
                 new Product
                 {
@@ -77,7 +77,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    //CategoryID = 2
+                    CategoryID = 2
                 },
                 new Product
                 {
@@ -90,7 +90,7 @@ namespace Bulky.DataAccess.Data.EntityConfigurations
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    //CategoryID = 3
+                    CategoryID = 3
                 }
                 );
         }

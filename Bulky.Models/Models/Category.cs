@@ -16,6 +16,8 @@ namespace Bulky.Models.Models
         [DisplayName("Category Name")]
         [MaxLength(30 , ErrorMessage ="above 30 char is forbiden ")]
         public string? Name { get; set; }
+
+        public List<Product> Products { get; set;}
     }
 }
 /* 
