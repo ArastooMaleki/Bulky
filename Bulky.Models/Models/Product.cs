@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bulky.Models.Models
 {
@@ -38,10 +34,10 @@ namespace Bulky.Models.Models
         [Range(1,1000)]
         public double Price100 { get; set; }
         [Required]
-        public int CategoryID {  get; set; }
+        public int? CategoryID {  get; set; }
         public string? ImageUrl { get; set; }
         //nevigation property
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
     }
 }
