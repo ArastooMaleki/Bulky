@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Security;
 namespace BulkyWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
