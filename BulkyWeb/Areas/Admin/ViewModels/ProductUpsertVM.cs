@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.ViewModels
 {
-    public class UpsertVM
+    public class ProductUpsertVM
     {
         public Product? Product { get; set; }
         

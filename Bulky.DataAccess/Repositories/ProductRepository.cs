@@ -2,9 +2,6 @@
 using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Bulky.DataAccess.Repositories
 

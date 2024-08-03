@@ -20,8 +20,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-
-            return View(_unitOfWork.ProductRepository.GetAll());
+            return View(_unitOfWork.ProductRepository.GetAll("Category"));
         }
         [HttpGet]
         public IActionResult Upsert(int? ID)//UpdateInsert
@@ -31,7 +30,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             
             if (ID == null) // Insert
             {
-                var viewModel = new UpsertVM() { Product = new Product(), CategoryListItems = CategoryListItems };
+                var viewModel = new ProductUpsertVM() { Product = new Product(), CategoryListItems = CategoryListItems };
                 return View(viewModel);
             }
             else//Update 
@@ -42,14 +41,15 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     TempData["error"] = "the id doesnt exist";
                     return RedirectToAction("Index");
                 }
-                var viewModel = new UpsertVM() { Product = product, CategoryListItems = CategoryListItems };
+                var viewModel = new ProductUpsertVM() { Product = product, CategoryListItems = CategoryListItems };
                 return View(viewModel);
             }
 
         }
         [HttpPost]
-        public async Task<IActionResult> Upsert(UpsertVM? viewModel, IFormFile? fileInput)//, IFormFile file )//UpdateInsert UpsertVM? viewModel
+        public async Task<IActionResult> Upsert(ProductUpsertVM? viewModel, IFormFile? fileInput)//, IFormFile file )//UpdateInsert UpsertVM? viewModel
         {
+            
             if (ModelState.IsValid)
             {
                 Product? product = viewModel.Product;
@@ -66,6 +66,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     product.ImageUrl = URl;
                     _unitOfWork.ProductRepository.Add(product);
                     _unitOfWork.Save();
+                    TempData["success"] = "The product created successfully";
+
                     return RedirectToAction("Index","Product");
 
                 }
@@ -87,79 +89,23 @@ namespace BulkyWeb.Areas.Admin.Controllers
                             System.IO.File.Delete(oldImagePath);
                         } 
                     }
+                    var URl = "/images/product/" + fileName;
+                    product.ImageUrl = URl;
                     _unitOfWork.ProductRepository.Update(product);
                     _unitOfWork.Save();
+                    TempData["success"] = "The product edited successfully";
                     return RedirectToAction("Index","Product");
                 }
             }
             else
             {
-
+                viewModel.CategoryListItems = _unitOfWork.CategoryRepository.GetAll()
+                .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
                 return View(viewModel);
             }
 
         }
-        /*    public IActionResult Upsert(UpsertVM? viewModel  )//, IFormFile file )//UpdateInsert
-        {
-            if (ModelState.IsValid)
-            {
-                if (viewModel.Product?.ID == 0) // Insert
-                {
-                    Product product = viewModel.Product;
-                    //if (file == null)
-                    //{
-                    //    ModelState.AddModelError("file","image file is empty");
-                    //    return View(viewModel);
-                    //}
-                    //var rootPath = _webHost.WebRootFileProvider.ToString();
-                    //var fileName = $"{Guid.NewGuid}.{Path.GetExtension(file.FileName)}";
-                    //var filePath = Path.Combine(rootPath,"images\\product", fileName.Trim() );
-                    return View();
-                }
-                else//Update 
-                {
-                    return View(viewModel);
-                }
-
-            }
-            else
-            {
-                return View(viewModel); 
-            }
-        }*/
-        public IActionResult Create()
-        {
-            var CategoryListItems = _unitOfWork.CategoryRepository.GetAll()
-                .Select(c=> new SelectListItem { Text = c.Name , Value = c.Id.ToString()});
-            ViewBag.CategoryListItems = CategoryListItems;
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Product product)
-        {
-            _unitOfWork.ProductRepository.Add(product);
-            _unitOfWork.Save();
-            TempData["success"] = "product created successfully";
-            return RedirectToAction("Index");
-        }
         
-        public IActionResult Edit([FromRoute]int ID)
-        {
-            var CategoryListItems = _unitOfWork.CategoryRepository.GetAll()
-                .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
-            ViewBag.CategoryListItems = CategoryListItems;
-            Product product = _unitOfWork.ProductRepository.Get(p=>p.ID==ID);
-            return View(product);
-            
-        }
-        [HttpPost]
-        public IActionResult Edit(Product updatedProduct)
-        {
-            _unitOfWork.ProductRepository.Update(updatedProduct);
-            _unitOfWork.Save();
-            TempData["success"] = "product edited successfully";
-            return RedirectToAction("Index");
-        }
 
         public IActionResult Delete([FromRoute]int ID)
         {

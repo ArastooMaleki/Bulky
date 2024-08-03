@@ -36,4 +36,5 @@ app.MapControllerRoute(
             pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
 );
 
+
 app.Run();
