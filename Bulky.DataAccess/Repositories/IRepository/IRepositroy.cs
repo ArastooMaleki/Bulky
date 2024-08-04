@@ -23,7 +23,7 @@ namespace Bulky.DataAccess.Repositories.IRepository
         /// </summary>
         /// <param name="filter">a lambda expression for finding the expresion</param>
         /// <returns></returns>
-        T? Get(Expression<Func<T, bool>> filter , string? includeProperty = null);
+        T? Get(Expression<Func<T, bool>> filter , string? includeProperty = null , bool tracked=false);
         /// <summary>
         /// add entity to table  
         /// </summary>

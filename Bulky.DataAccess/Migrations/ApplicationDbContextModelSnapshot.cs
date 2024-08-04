@@ -95,7 +95,7 @@ namespace Bulky.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("09cd4c0d-0273-4624-a690-d50281aa5f75"),
+                            ID = new Guid("5717f76a-78c6-4afa-877d-cfa5531a33a1"),
                             City = "Tech City",
                             Name = "Tech Solution",
                             PhoneNumber = "6669990000",
@@ -105,7 +105,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("69f556f4-38e6-4e6a-a701-00b34685a403"),
+                            ID = new Guid("4ce9642c-ca2d-462c-9dbb-320fdeceefb9"),
                             City = "VID City",
                             Name = "VivID Books",
                             PhoneNumber = "7779990000",
@@ -115,7 +115,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("bf1dc305-1a10-44b3-b8e8-8682e1813bf3"),
+                            ID = new Guid("c8a0a4d7-63ec-46bd-bf1c-b4527bb4f836"),
                             City = "Lala land",
                             Name = "Readers Club",
                             PhoneNumber = "1113335555",
@@ -252,6 +252,31 @@ namespace Bulky.DataAccess.Migrations
                             Price50 = 22.0,
                             Title = "Leaves and Wonders"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.ShoppingCart", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApplicationUserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ApplicationUserID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("shoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -498,6 +523,25 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Bulky.Models.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bulky.Models.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
