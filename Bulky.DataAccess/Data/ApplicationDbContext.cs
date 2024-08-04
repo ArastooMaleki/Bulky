@@ -14,12 +14,14 @@ namespace Bulky.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);
             new CategoryEntityConfiguration().Configure(modelBuilder.Entity<Category>());
             new ProductEntityConfiguration().Configure(modelBuilder.Entity<Product>());
+            new CompanyEntityConfiguraion().Configure(modelBuilder.Entity<Company>());
         }
 
     }

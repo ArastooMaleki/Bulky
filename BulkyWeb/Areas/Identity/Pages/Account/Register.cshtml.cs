@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Identity;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Bulky.DataAccess.Repository.IRepository;
 namespace BulkyWeb.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
@@ -34,6 +35,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +43,8 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +53,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             this._roleManager = roleManager;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -107,9 +111,11 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
             public string? Role { get; set; }
             [ValidateNever]
-            public IEnumerable<SelectListItem>? selectListItems { get; set; }
+            public IEnumerable<SelectListItem>? RoleselectListItems { get; set; }
             [Required]
-
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyselectListItems { get; set; }
+            public Guid? CompanyID { get; set; }
             public string Name { get; set; }
             public string? StreetAddress { get; set; }
             public string? City { get; set; }
@@ -130,10 +136,15 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             }
 
             Input = new() {
-                selectListItems = _roleManager.Roles.Select(r=>r.Name).Select(r=> new SelectListItem()
+                RoleselectListItems = _roleManager.Roles.Select(r => r.Name).Select(r => new SelectListItem()
                 {
-                    Text=r,
+                    Text = r,
                     Value = r
+                }),
+                CompanyselectListItems = _unitOfWork.CompanyRepository.GetAll().Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.ID.ToString()
                 })
             };
             ReturnUrl = returnUrl;
@@ -156,6 +167,10 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 user.State = Input.State;
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
+                if (Input.Role == SD.Role_Company)
+                {
+                    user.CompanyID = Input.CompanyID;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
