@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.Identity;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repository.IRepositories;
 namespace BulkyWeb.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel

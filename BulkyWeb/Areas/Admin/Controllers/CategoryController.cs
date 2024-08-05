@@ -1,5 +1,5 @@
 ﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repository.IRepositories;
 using Bulky.Models.Models;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;

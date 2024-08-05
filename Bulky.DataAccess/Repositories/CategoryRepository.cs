@@ -1,10 +1,5 @@
 ﻿using Bulky.Models.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repository.IRepositories;
 using Bulky.DataAccess.Data;
 namespace Bulky.DataAccess.Repositories
 {

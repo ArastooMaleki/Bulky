@@ -1,6 +1,6 @@
 using Bulky.DataAccess.Data;
 using Bulky.DataAccess.Repositories;
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repository.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Bulky.Utility;

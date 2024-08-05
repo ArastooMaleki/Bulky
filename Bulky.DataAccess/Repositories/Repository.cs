@@ -1,18 +1,10 @@
 ﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repositories.IRepository;
+using Bulky.DataAccess.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.ExceptionServices;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Bulky.DataAccess.Repositories
-
 {
-    internal class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<T> _dbSet;

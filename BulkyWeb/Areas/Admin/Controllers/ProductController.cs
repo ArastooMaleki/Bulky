@@ -1,4 +1,4 @@
-﻿using Bulky.DataAccess.Repository.IRepository;
+﻿using Bulky.DataAccess.Repository.IRepositories;
 using Bulky.Models.Models;
 using BulkyWeb.Areas.Admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;

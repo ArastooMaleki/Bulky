@@ -1,6 +1,7 @@
 ﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repositories.IRepository;
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repositories.IRepositories;
+using Bulky.DataAccess.Repository.IRepositories;
+using BulkyBook.DataAccess.Repository.IRepositories;
 
 
 namespace Bulky.DataAccess.Repositories
@@ -17,6 +18,10 @@ namespace Bulky.DataAccess.Repositories
 
         public IShoppingCartRepository ShoppingCartRepository { get; private set; }
 
+        public IOrderDetailRepository OrderDetailRepository { get; private set; }
+
+        public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
+
         public UnitOfWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -24,6 +29,8 @@ namespace Bulky.DataAccess.Repositories
             ProductRepository = new ProductRepository(_dbContext);
             CompanyRepository = new CompanyRepository(_dbContext);
             ShoppingCartRepository = new ShoppingCartRepository(_dbContext);
+            OrderDetailRepository = new OrderDetailRepository(_dbContext);
+            OrderHeaderRepository = new OrderHeaderRepository(_dbContext);
         }
         public void Save()
         {

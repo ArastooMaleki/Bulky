@@ -1,4 +1,4 @@
-using Bulky.DataAccess.Repository.IRepository;
+using Bulky.DataAccess.Repository.IRepositories;
 using Bulky.Models.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

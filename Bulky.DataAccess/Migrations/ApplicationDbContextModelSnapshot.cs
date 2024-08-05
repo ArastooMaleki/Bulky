@@ -95,7 +95,7 @@ namespace Bulky.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("5717f76a-78c6-4afa-877d-cfa5531a33a1"),
+                            ID = new Guid("dcfa18b4-e10b-4ba3-ad56-efcfe3259ef0"),
                             City = "Tech City",
                             Name = "Tech Solution",
                             PhoneNumber = "6669990000",
@@ -105,7 +105,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("4ce9642c-ca2d-462c-9dbb-320fdeceefb9"),
+                            ID = new Guid("ccf33ab1-1120-4ca4-af52-857b977e4cb2"),
                             City = "VID City",
                             Name = "VivID Books",
                             PhoneNumber = "7779990000",
@@ -115,7 +115,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("c8a0a4d7-63ec-46bd-bf1c-b4527bb4f836"),
+                            ID = new Guid("1428243c-97ac-4e75-9374-e36c1180107b"),
                             City = "Lala land",
                             Name = "Readers Club",
                             PhoneNumber = "1113335555",
@@ -123,6 +123,111 @@ namespace Bulky.DataAccess.Migrations
                             State = "NY",
                             StreetAddress = "999 Main St"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderHeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderHeaderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.OrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("OrderTotal")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PaymentDueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("Bulky.Models.Models.Product", b =>
@@ -512,6 +617,36 @@ namespace Bulky.DataAccess.Migrations
                     b.HasIndex("CompanyID");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Bulky.Models.Models.OrderHeader", "OrderHeader")
+                        .WithMany()
+                        .HasForeignKey("OrderHeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bulky.Models.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.OrderHeader", b =>
+                {
+                    b.HasOne("Bulky.Models.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Bulky.Models.Models.Product", b =>
