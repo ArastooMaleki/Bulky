@@ -1,7 +1,6 @@
-﻿
-using Bulky.DataAccess.Repositories.IRepository;
-
-namespace Bulky.DataAccess.Repository.IRepository
+﻿using Bulky.DataAccess.Repositories.IRepositories;
+using BulkyBook.DataAccess.Repository.IRepositories;
+namespace Bulky.DataAccess.Repository.IRepositories
 {
     public interface IUnitOfWork
     {
@@ -9,6 +8,8 @@ namespace Bulky.DataAccess.Repository.IRepository
         IProductRepository ProductRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         IShoppingCartRepository ShoppingCartRepository { get; }
+        IOrderDetailRepository OrderDetailRepository { get; }
+        IOrderHeaderRepository OrderHeaderRepository { get; }
         void Save();
     }
 }

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bulky.DataAccess.Repositories.IRepository
+namespace Bulky.DataAccess.Repositories.IRepositories
 {
     /// <summary>
     /// this is the generi interface for basic repositories method use this for extend other other interfaces 

@@ -1,5 +1,5 @@
 ﻿using Bulky.Models.Models;
-namespace Bulky.DataAccess.Repositories.IRepository
+namespace Bulky.DataAccess.Repositories.IRepositories
 {
     /// <summary>
     /// Repository for company crud operation 
