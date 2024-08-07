@@ -14,12 +14,8 @@ namespace Bulky.Models.Models
     {
 
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string ApplicationUserId { get; set; } = null!;
-        [ForeignKey("ApplicationUserId")]
-        [ValidateNever]
-        public ApplicationUser ApplicationUser { get; set; } = null!;
-
         public DateTime OrderDate { get; set; }
         public DateTime ShippingDate { get; set; }
         public double OrderTotal { get; set; }
@@ -49,5 +45,8 @@ namespace Bulky.Models.Models
         public string Name { get; set; } = null!;
 
 
+        [ForeignKey("ApplicationUserId")]
+        [ValidateNever]
+        public ApplicationUser ApplicationUser { get; set; } = null!;
     }
 }

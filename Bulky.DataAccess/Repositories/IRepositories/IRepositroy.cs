@@ -17,7 +17,7 @@ namespace Bulky.DataAccess.Repositories.IRepositories
         /// return all the enitiy from Table
         /// </summary>
         /// <returns></returns>
-        IEnumerable<T> GetAll(string? includeProperty = null);
+        IEnumerable<T> GetAll(string? includeProperty = null , Expression<Func<T, bool>>? filter = null);
         /// <summary>
         /// retrun one entity that match ther filetr
         /// </summary>

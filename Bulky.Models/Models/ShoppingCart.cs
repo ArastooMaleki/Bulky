@@ -16,6 +16,11 @@ namespace Bulky.Models.Models
         public string ApplicationUserID { get; set; }
         [Range(1,1000,ErrorMessage ="please insert a number between 1 and 1000")]
         public int Count { get; set; }
+       
+        
+        
+        
+        
         //navigation property 
         [ForeignKey("ProductID")]
         [ValidateNever]

@@ -22,7 +22,9 @@ namespace Bulky.DataAccess.Repositories
 
         public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
 
-        public UnitOfWork(ApplicationDbContext dbContext)
+        public IApplicationUserRepository ApplicationUserRepository { get; private set; }
+
+    public UnitOfWork(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             CategoryRepository = new CategoryRepository(_dbContext);
@@ -31,6 +33,7 @@ namespace Bulky.DataAccess.Repositories
             ShoppingCartRepository = new ShoppingCartRepository(_dbContext);
             OrderDetailRepository = new OrderDetailRepository(_dbContext);
             OrderHeaderRepository = new OrderHeaderRepository(_dbContext);
+            ApplicationUserRepository = new ApplicationUserRepository(_dbContext);
         }
         public void Save()
         {
