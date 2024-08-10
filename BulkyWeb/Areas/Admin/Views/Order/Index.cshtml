@@ -1,0 +1,135 @@
+﻿@model OrderIndex
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Orders</h1>
+
+<partial name="~/Views/Shared/_Notification.cshtml">
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].ApplicationUser)
+            </th>
+            <th>
+                <a asp-controller="Order" asp-action="Index" asp-route-sortOrder="@ViewData["OrderDateSortParam"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.OrderHeaders[0].OrderDate)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].ShippingDate)
+            </th>
+            <th>
+                <a asp-controller="Order" asp-action="Index" asp-route-sortOrder="@ViewData["OrderTotalSortParam"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.OrderHeaders[0].OrderTotal)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].PaymentStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].TrackingNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].Carrier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].PaymentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].PaymentDueDate)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaders[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderHeaders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrackingNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carrier)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentDueDate)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Remove", new {  id=item.ID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageIndex="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageIndex="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+

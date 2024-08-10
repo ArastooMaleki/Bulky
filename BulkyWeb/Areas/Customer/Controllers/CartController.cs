@@ -2,6 +2,7 @@
 using Bulky.Models.Models;
 using Bulky.Utility;
 using BulkyWeb.Areas.Customer.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -15,6 +16,7 @@ using System.Security.Claims;
 namespace BulkyWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -48,7 +50,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             var identityClaims = (ClaimsIdentity)User.Identity;
             var userID = identityClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var scs = _unitOfWork.ShoppingCartRepository.GetAll("Product", sc => sc.ApplicationUserID.Equals(userID)).ToList();
-            var curentUser = _unitOfWork.ApplicationUserRepository.Get(u=>u.Id.Equals(userID));
+            var curentUser = _unitOfWork.ApplicationUserRepository.Get(u=>u.Id.Equals(userID),tracked:true);
             shoppingCartVM = new ShoppingCartVM()
             {
                 ShoppingCartList = scs,
@@ -159,7 +161,9 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
                 }
 
-
+                
+                _unitOfWork.ShoppingCartRepository.RemoveRange(shoppingCartVM.ShoppingCartList);
+                HttpContext.Session.SetInt32(SD.SessionCart , (HttpContext.Session.GetInt32(SD.SessionCart)??0) - shoppingCartVM.ShoppingCartList.Select(sc=>sc.Count).Sum());
                 var service = new SessionService();
                 Session session = service.Create(options);
                 _unitOfWork.OrderHeaderRepository.UpdateStripePaymentID(shoppingCartVM.OrderHeader.ID, session.Id, session.PaymentIntentId);
@@ -231,6 +235,8 @@ namespace BulkyWeb.Areas.Customer.Controllers
             sc.Count += 1;
             _unitOfWork.ShoppingCartRepository.Update(sc);
             _unitOfWork.Save();
+            HttpContext.Session.SetInt32(SD.SessionCart, (HttpContext.Session.GetInt32(SD.SessionCart) ?? 0) + 1);
+
             TempData["success"] = "the count increased by one";
             return RedirectToAction(nameof(Index));
         }
@@ -242,6 +248,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 sc.Count -= 1;
                 _unitOfWork.ShoppingCartRepository.Update(sc);
                 _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, (HttpContext.Session.GetInt32(SD.SessionCart) ?? 0) - 1);
                 TempData["success"] = "the count decreased by one";
                 return RedirectToAction(nameof(Index));
             }else
@@ -256,8 +263,13 @@ namespace BulkyWeb.Areas.Customer.Controllers
             var sc = _unitOfWork.ShoppingCartRepository.Get(sc => sc.ID.Equals(cartId));
             _unitOfWork.ShoppingCartRepository.Remove(sc);
             _unitOfWork.Save();
+            
+            HttpContext.Session.SetInt32(SD.SessionCart,(HttpContext.Session.GetInt32(SD.SessionCart)??0)-sc.Count);
+            
             TempData["success"] = "the shopping cart deleted successfully";
             return RedirectToAction(nameof(Index));
         }
+
+        
     }
 }

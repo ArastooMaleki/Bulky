@@ -26,6 +26,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
+            //HttpContext.Session.Clear(); // we did this in ViewConponents 
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

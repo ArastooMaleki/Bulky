@@ -1,6 +1,8 @@
 using Bulky.DataAccess.Repository.IRepositories;
 using Bulky.Models.Models;
+using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -40,21 +42,30 @@ namespace BulkyWeb.Areas.Customer.Controllers
             var previousCart = _unitOfWork.ShoppingCartRepository
                 .Get(sc=>sc.ApplicationUserID==userID 
                 && sc.ProductID==shoppingCart.ProductID );
+            if(HttpContext.Session.GetInt32(SD.SessionCart) == null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart,0);
+
+            }
             if (previousCart != null)
             {
                 previousCart.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCartRepository.Update(previousCart);
                 TempData["success"] = "the shopping cart updated successfully";
+                HttpContext.Session.SetInt32(SD.SessionCart,  shoppingCart.Count + HttpContext.Session.GetInt32(SD.SessionCart) ?? 0);
+                
             }
             else
             {
                 shoppingCart.ApplicationUserID = userID;
                 _unitOfWork.ShoppingCartRepository.Add(shoppingCart);
-                TempData["success"] = "the product added to shopping cart successfully"; 
+                TempData["success"] = "the product added to shopping cart successfully";
+                HttpContext.Session.SetInt32(SD.SessionCart,shoppingCart.Count + HttpContext.Session.GetInt32(SD.SessionCart) ?? 0);
             }
             
             _unitOfWork.Save();
-            return  RedirectToAction(nameof(Index)); ;
+
+            return RedirectToAction(nameof(Index)); ;
         }
 
         public IActionResult Privacy()

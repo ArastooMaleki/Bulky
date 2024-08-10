@@ -20,7 +20,7 @@ namespace Bulky.DataAccess.Repositories
             _dbSet.Add(entity);
         }
 
-        public T? Get(Expression<Func<T, bool>> filter , string? includeProperty = null , bool tracked = false)
+        public T? Get(Expression<Func<T, bool>> filter , string? includeProperty = null , bool tracked = true)
         {
             IQueryable<T> query;
             if (tracked == true)
