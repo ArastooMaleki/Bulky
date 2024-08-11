@@ -33,6 +33,14 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.IdleTimeout = TimeSpan.FromMinutes(100);
 });
+
+// 368919316531-2ujhvcjaku1pjaan830vpo4ec69t6ltv.apps.googleusercontent.com client-id
+// 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 client secret 
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    options.ClientId = "368919316531-2ujhvcjaku1pjaan830vpo4ec69t6ltv.apps.googleusercontent.com";
+    options.ClientSecret = "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";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
