@@ -20,10 +20,11 @@ namespace BulkyWeb.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+
         [BindProperty]
         public ShoppingCartVM shoppingCartVM { get; set; }
 
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork , IEmailSender emailSender)
         {
             this._unitOfWork = unitOfWork;
         }
@@ -260,6 +261,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Remove(Guid cartId)
         {
+            
             var sc = _unitOfWork.ShoppingCartRepository.Get(sc => sc.ID.Equals(cartId));
             _unitOfWork.ShoppingCartRepository.Remove(sc);
             _unitOfWork.Save();

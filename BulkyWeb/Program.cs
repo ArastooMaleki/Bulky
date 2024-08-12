@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using Bulky.DataAccess.DbInitializer;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -41,6 +42,7 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientId = "368919316531-2ujhvcjaku1pjaan830vpo4ec69t6ltv.apps.googleusercontent.com";
     options.ClientSecret = "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";
 });
+builder.Services.AddScoped<IDbInitializer,DbInitializer>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +60,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+DatabaseInitialize();
 /*app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -70,3 +73,13 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+void DatabaseInitialize()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var i = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        i.Initialize();
+    }
+}
