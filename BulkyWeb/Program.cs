@@ -7,12 +7,16 @@ using Bulky.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
 using Bulky.DataAccess.DbInitializer;
+using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 //Add Dbcontext
-builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])) ;
+builder.Services.AddDbContext<ApplicationDbContext>(opt => {
+    opt.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+    opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+}) ;
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddIdentity<IdentityUser,IdentityRole>()
