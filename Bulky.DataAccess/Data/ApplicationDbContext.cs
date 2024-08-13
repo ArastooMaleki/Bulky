@@ -18,6 +18,7 @@ namespace Bulky.DataAccess.Data
         public DbSet<ShoppingCart> shoppingCarts { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<ProductImage> ProdcutImages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -25,6 +26,7 @@ namespace Bulky.DataAccess.Data
             new CategoryEntityConfiguration().Configure(modelBuilder.Entity<Category>());
             new ProductEntityConfiguration().Configure(modelBuilder.Entity<Product>());
             new CompanyEntityConfiguraion().Configure(modelBuilder.Entity<Company>());
+            new ProductImageEntityConfiguration().Configure(modelBuilder.Entity<ProductImage>());
         }
 
     }

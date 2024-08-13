@@ -24,7 +24,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            var viweModel = _unitOfWork.ProductRepository.GetAll();
+            var viweModel = _unitOfWork.ProductRepository.GetAll(includeProperty: "Category,ProductImages");
             return View(viweModel);
         }
         public IActionResult Details(int id)

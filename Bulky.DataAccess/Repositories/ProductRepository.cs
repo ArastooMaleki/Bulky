@@ -21,7 +21,7 @@ namespace Bulky.DataAccess.Repositories
             oldProduct.Author = product.Author;
             oldProduct.Description = product.Description;   
             oldProduct.CategoryID = product.CategoryID;
-            oldProduct.ImageUrl = product.ImageUrl;
+            //oldProduct.ImageUrl = product.ImageUrl;
             oldProduct.Title = product.Title;
             oldProduct.ListPrice = product.ListPrice;
             oldProduct.Price = product.Price;   

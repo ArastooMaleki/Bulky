@@ -95,7 +95,7 @@ namespace Bulky.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("dcfa18b4-e10b-4ba3-ad56-efcfe3259ef0"),
+                            ID = new Guid("d06862a9-7e27-43ae-9383-246b05a362d2"),
                             City = "Tech City",
                             Name = "Tech Solution",
                             PhoneNumber = "6669990000",
@@ -105,7 +105,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("ccf33ab1-1120-4ca4-af52-857b977e4cb2"),
+                            ID = new Guid("06413aba-e041-471e-87be-6bb8ed3f2cff"),
                             City = "VID City",
                             Name = "VivID Books",
                             PhoneNumber = "7779990000",
@@ -115,7 +115,7 @@ namespace Bulky.DataAccess.Migrations
                         },
                         new
                         {
-                            ID = new Guid("1428243c-97ac-4e75-9374-e36c1180107b"),
+                            ID = new Guid("90982240-8024-4da4-a53a-70be7e8cb3bd"),
                             City = "Lala land",
                             Name = "Readers Club",
                             PhoneNumber = "1113335555",
@@ -156,11 +156,11 @@ namespace Bulky.DataAccess.Migrations
 
             modelBuilder.Entity("Bulky.Models.Models.OrderHeader", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -223,7 +223,7 @@ namespace Bulky.DataAccess.Migrations
                     b.Property<string>("TrackingNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("ApplicationUserId");
 
@@ -251,9 +251,6 @@ namespace Bulky.DataAccess.Migrations
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("ListPrice")
@@ -357,6 +354,28 @@ namespace Bulky.DataAccess.Migrations
                             Price50 = 22.0,
                             Title = "Leaves and Wonders"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.ProductImage", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ProdcutImages");
                 });
 
             modelBuilder.Entity("Bulky.Models.Models.ShoppingCart", b =>
@@ -660,6 +679,17 @@ namespace Bulky.DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Bulky.Models.Models.ProductImage", b =>
+                {
+                    b.HasOne("Bulky.Models.Models.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Bulky.Models.Models.ShoppingCart", b =>
                 {
                     b.HasOne("Bulky.Models.Models.ApplicationUser", "ApplicationUser")
@@ -742,6 +772,11 @@ namespace Bulky.DataAccess.Migrations
             modelBuilder.Entity("Bulky.Models.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Bulky.Models.Models.Product", b =>
+                {
+                    b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
         }
